@@ -9,3 +9,6 @@ build = "build.rs"
 gcc = "0.3"
 glob = "0.2.10"
 libc = "0.1"
+
+[dev-dependencies]
+regex = "0.1.8"
