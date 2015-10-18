@@ -15,7 +15,9 @@ use std::result::Result;
 use ::tsm::*;
 use ::screen::*;
 
-// A trait that reads the output of the vte, and does whatever it wants with it.
+// A trait that reads the output of the vte, and does whatever it wants with it.  Is there a well
+// known trait I can reuse? Probably.
+// http://doc.rust-lang.org/stable/style/features/traits/generics.html#favor-widespread-traits.-<strong>[fixme:-needs-rfc]</strong>
 pub trait VteReader {
     fn read(&mut self, String);
 }
@@ -38,6 +40,11 @@ extern "C" fn callback<T: VteReader>(_: *mut tsm_vte, input_ptr: *const c_char, 
     reader.read(string);
 }
 
+// Common traits to impl: Clone, Show, Hash, Eq
+//
+// Do I need this?
+// |
+// v
 #[repr(C)]
 pub struct Vte<T: VteReader> {
   pub vte: *mut tsm_vte,
