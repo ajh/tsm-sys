@@ -4,17 +4,10 @@ extern crate regex;
 extern crate tsm_sys;
 
 use libc::c_char;
-use libc::c_int;
-use libc::c_uint;
 use libc::c_void;
 use libc::size_t;
-use libc::uint32_t;
-use std::char::from_u32;
-use std::default;
-use std::fmt;
 use std::ptr;
 use std::slice;
-use std::char;
 
 use tsm_sys::*;
 
@@ -26,7 +19,7 @@ fn tsm_vte_stuff_works() {
 
     let mut vte = ptr::null_mut();
 
-    extern "C" fn write_cb(_: *mut tsm::tsm_vte, input_ptr: *const c_char, input_size: size_t, output: *mut c_void) {
+    extern "C" fn write_cb(_: *mut tsm::TsmVte, input_ptr: *const c_char, input_size: size_t, output: *mut c_void) {
         let output: &mut Output = unsafe { &mut *(output as *mut Output) };
         let input = unsafe { slice::from_raw_parts(input_ptr, input_size as usize) };
         for c in input {

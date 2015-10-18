@@ -5,3 +5,5 @@ extern crate tsm_sys;
 
 mod tsm_screen;
 mod tsm_vte;
+mod screen;
+mod vte;

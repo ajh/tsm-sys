@@ -3,7 +3,6 @@ extern crate libc;
 extern crate regex;
 extern crate tsm_sys;
 
-use libc::c_char;
 use libc::c_int;
 use libc::c_uint;
 use libc::c_void;
@@ -11,11 +10,7 @@ use libc::size_t;
 use libc::uint32_t;
 use regex::Regex;
 use std::char::from_u32;
-use std::default;
-use std::fmt;
 use std::ptr;
-use std::slice;
-use std::char;
 
 use tsm_sys::*;
 
@@ -30,11 +25,11 @@ fn tsm_screen_stuff_works() {
     assert_eq!(80, unsafe { tsm::tsm_screen_get_width(screen) });
     assert_eq!(24, unsafe { tsm::tsm_screen_get_height(screen) });
 
-    let attr: tsm::tsm_screen_attr = Default::default();
+    let attr: tsm::TsmScreenAttr = Default::default();
     for c in "hello world".chars() {
         unsafe { tsm::tsm_screen_write(screen, c as u32, &attr); }
     }
-    extern "C" fn draw_cb(_: *mut tsm::tsm_screen, _: u32, ch: *const uint32_t, _: size_t, _: c_uint, _: c_uint, _: c_uint, _: *const tsm::tsm_screen_attr, _: tsm::tsm_age_t, output: *mut c_void) -> c_int {
+    extern "C" fn draw_cb(_: *mut tsm::TsmScreen, _: u32, ch: *const uint32_t, _: size_t, _: c_uint, _: c_uint, _: c_uint, _: *const tsm::TsmScreenAttr, _: tsm::TsmAge, output: *mut c_void) -> c_int {
         let output: &mut Output = unsafe { &mut *(output as *mut Output) };
         let char = unsafe {
             if *ch == 0 { ' ' } else { from_u32(*ch).unwrap() }
