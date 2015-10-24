@@ -8,7 +8,7 @@ use tsm_sys::*;
 
 #[test]
 fn vte_stuff_works() {
-    let mut vte = Vte::new().unwrap();
+    let mut vte = Vte::new(10, 1).unwrap();
 
     for c in "hello world".chars() {
         vte.handle_keyboard(c);
@@ -28,15 +28,15 @@ fn vte_stuff_works() {
 
 #[test]
 fn vte_new_creates_a_new_vte() {
-    Vte::new().unwrap();
+    Vte::new(2, 2).unwrap();
 }
 
 #[test]
 fn vte_allows_mutable_access_to_its_screen() {
-    let mut vte = Vte::new().unwrap();
+    let mut vte = Vte::new(2, 2).unwrap();
     {
         let mut screen = vte.screen.borrow_mut();
-        screen.resize(20, 20).unwrap();
+        screen.resize(3, 1).unwrap();
     }
 
     // this doesn't explicitly check that screen is shared properly, but seems to work for now.
@@ -45,7 +45,7 @@ fn vte_allows_mutable_access_to_its_screen() {
 
 #[test]
 fn vte_input_changes_the_screen() {
-    let mut vte = Vte::new().unwrap();
+    let mut vte = Vte::new(10, 2).unwrap();
 
     vte.input(b"hello world");
 

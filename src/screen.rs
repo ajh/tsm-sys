@@ -55,11 +55,15 @@ pub struct Screen {
 }
 
 impl Screen {
-    pub fn new() -> Result<Screen, String> {
+    pub fn new(rows_count: usize, cols_count: usize) -> Result<Screen, String> {
         let mut screen_ptr = ptr::null_mut();
         let result = unsafe { tsm_screen_new(&mut screen_ptr, None, ptr::null_mut()) };
         match result {
-            0 => Ok(Screen { ptr: screen_ptr }),
+            0 => {
+                let mut screen = Screen { ptr: screen_ptr };
+                screen.resize(rows_count as u32, cols_count as u32);
+                Ok(screen)
+            }
             _ => Err(format!("error {}", result).to_string())
         }
     }
@@ -80,6 +84,14 @@ impl Screen {
 
     pub fn get_height(&mut self) -> u32 {
         unsafe { tsm_screen_get_height(self.ptr) }
+    }
+
+    pub fn get_cursor_x(&self) -> u32 {
+        unsafe { tsm_screen_get_cursor_x(self.ptr) }
+    }
+
+    pub fn get_cursor_y(&self) -> u32 {
+        unsafe { tsm_screen_get_cursor_y(self.ptr) }
     }
 
     // Could use std::io::Write trait but not sure how to handle attributes then.

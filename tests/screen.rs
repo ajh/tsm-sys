@@ -11,10 +11,13 @@ use tsm_sys::*;
 
 #[test]
 fn screen_stuff_works() {
-    let mut screen = Screen::new().unwrap();
-    screen.resize(80, 24).unwrap();
-    assert_eq!(80, screen.get_width());
-    assert_eq!(24, screen.get_height());
+    let mut screen = Screen::new(3, 1).unwrap();
+    assert_eq!(3, screen.get_width());
+    assert_eq!(1, screen.get_height());
+
+    screen.resize(15, 3).unwrap();
+    assert_eq!(15, screen.get_width());
+    assert_eq!(3, screen.get_height());
 
     for c in "hello world".chars() {
         let attr: tsm::TsmScreenAttr = Default::default();
@@ -32,10 +35,7 @@ fn screen_stuff_works() {
 }
 
 fn screen_returns_vec_of_cells() {
-    let mut screen = Screen::new().unwrap();
-    screen.resize(80, 24).unwrap();
-    assert_eq!(80, screen.get_width());
-    assert_eq!(24, screen.get_height());
+    let mut screen = Screen::new(10, 1).unwrap();
 
     let mut output = String::new();
     for cell in screen.cells() {

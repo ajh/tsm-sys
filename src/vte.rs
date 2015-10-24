@@ -31,8 +31,8 @@ extern "C" fn callback(_: *mut TsmVte, input_ptr: *const c_char, input_size: siz
 }
 
 impl Vte {
-    pub fn new() -> Result<Vte, String> {
-        let screen = ::Screen::new().unwrap();
+    pub fn new(rows_count: usize, cols_count: usize) -> Result<Vte, String> {
+        let screen = ::Screen::new(rows_count, cols_count).unwrap();
         let (tx, rx) = channel();
         let mut boxed_tx = Box::new(tx); // stablize memory address of tx
 
