@@ -61,16 +61,16 @@ impl Screen {
         match result {
             0 => {
                 let mut screen = Screen { ptr: screen_ptr };
-                screen.resize(rows_count as u32, cols_count as u32);
+                screen.resize(rows_count, cols_count);
                 Ok(screen)
             }
             _ => Err(format!("error {}", result).to_string())
         }
     }
 
-    pub fn resize(&mut self, row_size: u32, col_size: u32) -> Result<(), String> {
+    pub fn resize(&mut self, rows_count: usize, cols_count: usize) -> Result<(), String> {
         unsafe {
-            let result = tsm_screen_resize(self.ptr, row_size, col_size);
+            let result = tsm_screen_resize(self.ptr, cols_count as u32, rows_count as u32);
             match result {
                 0 => Ok(()),
                 _ => Err(format!("error {}", result).to_string())

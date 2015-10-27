@@ -11,11 +11,11 @@ use tsm_sys::*;
 
 #[test]
 fn screen_stuff_works() {
-    let mut screen = Screen::new(3, 1).unwrap();
+    let mut screen = Screen::new(1, 3).unwrap();
     assert_eq!(3, screen.get_width());
     assert_eq!(1, screen.get_height());
 
-    screen.resize(15, 3).unwrap();
+    screen.resize(3, 15).unwrap();
     assert_eq!(15, screen.get_width());
     assert_eq!(3, screen.get_height());
 
